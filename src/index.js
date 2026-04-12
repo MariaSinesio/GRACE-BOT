@@ -41,12 +41,12 @@ client.on(Events.GuildMemberAdd, member => {
     const gifThumb = new AttachmentBuilder(path.join(__dirname, 'assets', 'thumbnail.gif'), { name: 'thumbnail.gif' }) //garantir que o caminho está correto
     const memberTotal = member.guild.memberCount;
     const embed = new EmbedBuilder()
-    .setThumbnail('attachment://thumbnail.gif')
+    .setImage('attachment://thumbnail.gif')
     .setTitle('Bem vinda ao Grace-usp!❤️')
     .setDescription(`Oi, ${member.user}! é um prazer tê-la aqui conosco. Pedimos que se apresente aos demais membros e aproveite sua jornada. Em casos de dúvida, entre em contato com algum monitor.\n
-    Respeite sempre as regras do grupo e seja educada com os outros membros.\n\n
+    Respeite sempre as regras do grupo e seja educada com os outros membros.\n
     Fun Fact: Sabia que você se tornou o membro número ${memberTotal} do nosso grupo? Estamos muito felizes em te ter aqui! ☆*: (≧▽≦)o :*☆
-    ⊱⋅ ──────────── ⋅⊰⊱⋅ ──────────── ⋅⊰⊱⋅ ──────────── ⋅⊰`)
+    ⋅⊰⊱⋅ ──────────── ⋅⊰⊱`)
     .setColor("Purple")
     channel.send({ embeds: [embed], files: [gifThumb] });
     }

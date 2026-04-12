@@ -42,6 +42,10 @@ node app.js
 
 [^1]: É preciso explicitar que essa aplicação é de uso interamente interno.
 
+## Deploy
+
+Atualmente utilizamos o [Discloud](https://discloud.com/) para hospedar a aplicação.
+
 ## Licença 
 
 Esse repositório utiliza uma licença MIT. 

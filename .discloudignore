@@ -1,0 +1,12 @@
+.git
+.vscode
+.idea
+cache
+node_modules
+
+npm-debug.log
+yarn-error.log
+pnpm-debug.log
+
+dist
+build
