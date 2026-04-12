@@ -1,4 +1,4 @@
-const { Client, Events, GatewayIntentBits, EmbedBuilder, AttachmentFlags } = require('discord.js'); // Importa as classes necessárias
+const { Client, Events, GatewayIntentBits, EmbedBuilder, ActivityType, AttachmentBuilder } = require('discord.js'); // Importa as classes necessárias
 const fs = require('node:fs');
 const path = require('node:path'); //nativo
 const { token, logChannel, botPrefix } = require('../config.json'); 
@@ -12,6 +12,7 @@ client.once('ready', () => {
 const users = new Map();
 const logChannelId = logChannel;//
 
+
 client.on('messageCreate', message => {
     if (message.content.toLowerCase() === `${botPrefix}oi`) {
         if (message.author.bot) return;
@@ -19,21 +20,35 @@ client.on('messageCreate', message => {
     } 
 })
 
-client.on(Events.WelcomeNewMember, async member => {
-    WelcomeNewMember(member);
+client.once('ready', () => {
+    console.log('Status funcionando!');
+
+    client.user.setPresence({
+        activities: [{ name: '🎶Gerenciando o Grace-usp. Digite !oi', 
+            type: ActivityType.Watching }],
+        status: 'online',
+    });
+});
+
+
+
+client.on(Events.GuildMemberAdd, member => {
     console.log("Um novo usuário foi detectado");
-    if (logChannel) {
-    const gifThumb = new AttachmentBuilder('./assets/thumbnail.gif', { name: 'thumbnail.gif' })
+
+    const channel = member.guild.channels.cache.get(logChannelId); //canal
+
+    if (channel) {
+    const gifThumb = new AttachmentBuilder(path.join(__dirname, 'assets', 'thumbnail.gif'), { name: 'thumbnail.gif' }) //garantir que o caminho está correto
     const memberTotal = member.guild.memberCount;
     const embed = new EmbedBuilder()
-    .setThumbnail('attachment://thumbnail.gif')
+    .setImage('attachment://thumbnail.gif')
     .setTitle('Bem vinda ao Grace-usp!❤️')
     .setDescription(`Oi, ${member.user}! é um prazer tê-la aqui conosco. Pedimos que se apresente aos demais membros e aproveite sua jornada. Em casos de dúvida, entre em contato com algum monitor.\n
-    Respeite sempre as regras do grupo e seja educada com os outros membros.\n\n
+    Respeite sempre as regras do grupo e seja educada com os outros membros.\n
     Fun Fact: Sabia que você se tornou o membro número ${memberTotal} do nosso grupo? Estamos muito felizes em te ter aqui! ☆*: (≧▽≦)o :*☆
-    ⊱⋅ ──────────── ⋅⊰⊱⋅ ──────────── ⋅⊰`)
+    ⋅⊰⊱⋅ ──────────── ⋅⊰⊱`)
     .setColor("Purple")
-    logChannel.send({ embeds: [embed], files: [gifThumb] });
+    channel.send({ embeds: [embed], files: [gifThumb] });
     }
 })
 
