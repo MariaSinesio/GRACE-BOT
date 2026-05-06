@@ -1,4 +1,4 @@
-const { Client, Events, GatewayIntentBits, EmbedBuilder, ActivityType, AttachmentBuilder } = require('discord.js'); // Importa as classes necessárias
+const { Client, Events, GatewayIntentBits, EmbedBuilder, ActivityType, AttachmentBuilder, WelcomeChannel } = require('discord.js'); // Importa as classes necessárias
 const fs = require('node:fs');
 const path = require('node:path'); //nativo
 const { token, logChannel, botPrefix } = require('../config.json'); 
@@ -10,8 +10,8 @@ client.once('ready', () => {
 });
 
 const users = new Map();
-const logChannelId = logChannel;//
-
+const channelLogs = logChannel; 
+const channelWelcome = welcomeChannel;
 
 client.on('messageCreate', message => {
     if (message.content.toLowerCase() === `${botPrefix}oi`) {
@@ -30,12 +30,26 @@ client.once('ready', () => {
     });
 });
 
+client.on('messageCreate', async (message) => {
+    if (message.author.bot) return;
+
+    if (message.content === `${botPrefix}canal`) {
+        
+        const channel = message.guild.channels.cache.find(c => c.name === channelLogs);
+
+        if (channel) {
+            await channel.send('Estarei mandando os logs para este chat!');
+        } else {
+            message.reply(`Não consegui encontrar um canal chamado "${channel}".`);
+        }
+    }
+});
 
 
 client.on(Events.GuildMemberAdd, member => {
     console.log("Um novo usuário foi detectado");
 
-    const channel = member.guild.channels.cache.get(logChannelId); //canal
+    const channel = member.guild.channels.cache.find(channelWelcome); //logchannelid
 
     if (channel) {
     const gifThumb = new AttachmentBuilder(path.join(__dirname, 'assets', 'thumbnail.gif'), { name: 'thumbnail.gif' }) //garantir que o caminho está correto
@@ -54,6 +68,8 @@ client.on(Events.GuildMemberAdd, member => {
 
 client.on(Events.VoiceStateUpdate, async (oldState, newState) => {
     const member = newState.member;
+    const guild = newState.guild;
+
     if (!member || member.user.bot) return; 
 
     if (!oldState.channelId && newState.channelId) {
@@ -70,7 +86,7 @@ if (oldState.channelId && !newState.channelId) {
 
             const min = Math.floor(durationMs / 60000);
 
-            if(logChannel) {
+            if(channelLogs) {
                 const embed = new EmbedBuilder()
                 .setTitle('Registro do tempo no canal de voz')
                 .setDescription(`${member.user.tag} ficou ${min} minuto(s) no canal.`)
@@ -85,7 +101,7 @@ if (oldState.channelId && !newState.channelId) {
                 .setColor("Purple")
                 .setTimestamp();
 
-                const channelfetch = await client.channels.fetch(logChannelId);
+                const channelfetch = await guild.channels.cache.find(c => c.name === channelLogs); //usa-se find
                 channelfetch.send({ embeds: [embed]});
             }
              users.delete(member.id);
