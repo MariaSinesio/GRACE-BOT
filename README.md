@@ -2,6 +2,8 @@
 
 **GRACEBOT** é uma aplicação, bot em javascript para o Discord que visa o gerenciamento dos canais de voz para monitoria do GRACE-USP, facilitando o controle de entrada e saída e o tempo que o perfil permaneceu durante o evento, sendo um indicador crucial para presença, engajamento de alunas e mentores, assim como métricas estatísticas feitas pelo grupo interno.
 
+Adicionalmente, há o recurso de ```boas-vindas``` já acolhendo e direcionando as alunas do que diz respeito a regras, curiosidades e perguntas-respostas do FAQ.
+
 ## Pré Requisitos
 
 - Node.js (*Versão 16.x ou superior*)
