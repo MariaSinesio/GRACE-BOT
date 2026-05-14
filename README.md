@@ -22,10 +22,21 @@ Adicionalmente, há o recurso de ```boas-vindas``` já acolhendo e direcionando 
 └── package.json 
 
 ```
-## Funcionalidades
+## Lista de comandos
 
 - ``!oi`` - Comando para verificar o bot
 - ``!faq`` - Oferece informações importantes sobre o projeto, cursos, monitores e outros dados pertinentes.
+
+### Funcionalidades
+
+| Funcionalidades | Detalhes/Classes |
+| :--- | :--- |
+| oi | Comando que verifica o estado do bot e recebe contato da criadora em casos de dúvida, utiliza estrutura básica de envio de mensagem no caso de envio do comando  |
+| Faq | Comando que utiliza estrutura de ``EmbedBuilder`` para um corpo de texto mais rico em detalhes |
+| Contabilidade de frequência | Utilize ``Events.VoiceStateUpdate`` estabelece controle e conectividade com o bot através de estados que podem ser detectados quando um usuário entra ou sai, possibilitando o rastreio. Através de lógica, é possivel calcular o tempo de permanencia do usuário no canal de voz. Utiliza ``EmbedBuilder`` para fornecer mais detalhes no log que é disparado quando o usuário sai. |
+| Boas vindas | Mensagem de boas vindas disparada quando um membro entra na comunidade, sendo possível com ``Events.GuildMemberAdd`` e ``EmbedBuilder`` para construção da mensagem de onboarding. |
+
+
 
 ## Pré Requisitos
 
