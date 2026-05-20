@@ -1,7 +1,7 @@
 const { Client, Events, GatewayIntentBits, EmbedBuilder, ActivityType, AttachmentBuilder, WelcomeChannel } = require('discord.js'); // Importa as classes necessárias
 const fs = require('node:fs');
 const path = require('node:path'); //nativo
-const { token, logChannel, botPrefix } = require('../config.json'); 
+const { token, logChannel, welcomeChannel, ceo, botPrefix } = require('../config.json'); 
 
 const client = new Client({ intents: [GatewayIntentBits.GuildVoiceStates,GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent, GatewayIntentBits.GuildMembers] }); // garante o funcionamento, ou seja,caches de guildas, canais e funções sejam preenchidos e estejam disponíveis para uso interno.
 
@@ -13,10 +13,11 @@ const users = new Map();
 const channelLogs = logChannel; 
 const channelWelcome = welcomeChannel;
 
+
 client.on('messageCreate', message => {
     if (message.content.toLowerCase() === `${botPrefix}oi`) {
         if (message.author.bot) return;
-        message.channel.send(`Olá, ${message.author}! Sou o bot de gerenciamento do GRACE-USP :)`)
+        message.channel.send(`Olá, ${message.author}! Sou o bot de gerenciamento do GRACE-USP :). Minha criadora é a <@${ceo}>, caso tenha dúvidas, entre em contato com ela! `)
     } 
 })
 
@@ -40,16 +41,17 @@ client.on('messageCreate', async (message) => {
         if (channel) {
             await channel.send('Estarei mandando os logs para este chat!');
         } else {
-            message.reply(`Não consegui encontrar um canal chamado "${channel}".`);
+            message.reply(`Não consegui encontrar um canal chamado "${channel}", por favor, crie um.`);
         }
     }
 });
 
 
-client.on(Events.GuildMemberAdd, member => {
+
+client.on(Events.GuildMemberAdd, async member => {
     console.log("Um novo usuário foi detectado");
 
-    const channel = member.guild.channels.cache.find(channelWelcome); //logchannelid
+    const channel = await member.guild.channels.cache.find(f => f.name === channelWelcome); //logchannelid
 
     if (channel) {
     const gifThumb = new AttachmentBuilder(path.join(__dirname, 'assets', 'thumbnail.gif'), { name: 'thumbnail.gif' }) //garantir que o caminho está correto
@@ -59,11 +61,41 @@ client.on(Events.GuildMemberAdd, member => {
     .setTitle('Bem vinda ao Grace-usp!❤️')
     .setDescription(`Oi, ${member.user}! é um prazer tê-la aqui conosco. Pedimos que se apresente aos demais membros e aproveite sua jornada. Em casos de dúvida, entre em contato com algum monitor.\n
     Respeite sempre as regras do grupo e seja educada com os outros membros.\n
-    Fun Fact: Sabia que você se tornou o membro número ${memberTotal} do nosso grupo? Estamos muito felizes em te ter aqui! ☆*: (≧▽≦)o :*☆
-    ⋅⊰⊱⋅ ──────────── ⋅⊰⊱`)
+    Pedimos que olhe o canal de FAQ para tirar dúvidas ou escreva ${botPrefix}faq para acessar as perguntas mais frequentes. \n
+    Fun Fact: Sabia que você se tornou o ${memberTotal}º membro do nosso grupo? Estamos muito felizes em te ter aqui! ☆*: (≧▽≦)o :*☆
+    ⋅⊰⊱⋅ ──────────── ⋅⊰⊱⋅ ──────────── ⋅⊰⊱⋅ ──────────── ⋅⊰`)
     .setColor("Purple")
+    .setFooter({ text: "GRACE-USP", date: Date.now()})
     channel.send({ embeds: [embed], files: [gifThumb] });
     }
+})
+
+
+
+
+client.on('messageCreate', message => {
+    if(message.author.bot) return;
+
+   if(message.content === `${botPrefix}faq`) { //seta qualquer canal
+    const embed = new EmbedBuilder()
+    .setTitle("FAQ | GRACE-USP")
+    .setFields(
+        { name: "Quem somos nós?",  value: "O Grace é um projeto de extensão proveniente da USP que visa democratizar e incluir o ensino nas áreas STEM para jovens"},
+        {name: "Qual curso oferecemos atualmente?", value: "Curso de Desenvolvimento Web para meninas"},
+        {name: "Como funciona as entregas das atividades?", value: "As atividades são entregues semanalmente, separadas por módulos."},
+        {name: "Quais softwares serão usados para organização do curso?", value: "O acompanhamento pedagógico do curso será feito pelo Discord e conteúdos do curso serão disponibilizados no Google Classroom, inclusive as atividades."},
+        {name: "Como funciona as monitorias?", value: "As monitorias acontecem todos os dias ao longo da semana, em horários diferentes, para que todas consigam participar. A participação é *obrigatória* e as alunas devem entrar pelo menos 1 vez por semana numa monitoria através dos canais de voz do Discord."},
+        {name: "Como minha presença é contabilizada na monitoria?", value: "Ela é feita de forma automatizada através de um bot, por isso é importante a entrada no canal de voz."},
+        {name: "Atrasei uma tarefa, e agora?", value: "O importante é a entrega efetiva das tarefas, mesmo que com atraso. A comunicação também é essencial, em casos de imprevistos, avise algum responsável da organização."},
+        {name: "Quais são os horários/dias das monitorias?", value: "Esse tópico é disponibilizado pela organização, por isso, fique atenta(o) ao chat do Discord."},
+        {name: "Como funciona as entregas das atividades?", value: "As atividades são entregues semanalmente, separadas por módulos."},
+        {name: "Tenho uma dúvida! Posso tirar com qualquer monitor?", value: "Sim, pode! Pode enviar sua dúvida ao chat de dúvidas ou entrar em contato com um monitor da sua preferência."},
+        {name: "O curso tem certificado?", value: "Sim, ao final do curso serão disponibilizados certificados a aqueles que entregaram as tarefas e tiveram 70% de presença, no mínimo."}
+
+    )
+    .setColor("Purple")
+    message.channel.send({embeds: [embed]})
+}
 })
 
 client.on(Events.VoiceStateUpdate, async (oldState, newState) => {
