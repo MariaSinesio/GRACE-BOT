@@ -1,7 +1,7 @@
 const { Client, Events, GatewayIntentBits, EmbedBuilder, ActivityType, AttachmentBuilder, WelcomeChannel } = require('discord.js'); // Importa as classes necessárias
 const fs = require('node:fs');
 const path = require('node:path'); //nativo
-const { token, logChannel, welcomeChannel, ceo, botPrefix } = require('../config.json'); 
+const { token, logChannel, welcomeChannel, ceo, botPrefix, AUTO_ROLE_ID } = require('../config.json'); 
 
 const client = new Client({ intents: [GatewayIntentBits.GuildVoiceStates,GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent, GatewayIntentBits.GuildMembers] }); // garante o funcionamento, ou seja,caches de guildas, canais e funções sejam preenchidos e estejam disponíveis para uso interno.
 
@@ -13,7 +13,7 @@ const users = new Map();
 const channelLogs = logChannel; 
 const channelWelcome = welcomeChannel;
 
-
+// se o bot esiver on, a mensagem é disparada.
 client.on('messageCreate', message => {
     if (message.content.toLowerCase() === `${botPrefix}oi`) {
         if (message.author.bot) return;
@@ -21,6 +21,7 @@ client.on('messageCreate', message => {
     } 
 })
 
+// status do bot
 client.once('ready', () => {
     console.log('Status funcionando!');
 
@@ -31,6 +32,7 @@ client.once('ready', () => {
     });
 });
 
+// definição dos canais de logs
 client.on('messageCreate', async (message) => {
     if (message.author.bot) return;
 
@@ -47,7 +49,7 @@ client.on('messageCreate', async (message) => {
 });
 
 
-
+// evento de boas vindas
 client.on(Events.GuildMemberAdd, async member => {
     console.log("Um novo usuário foi detectado");
 
@@ -70,7 +72,16 @@ client.on(Events.GuildMemberAdd, async member => {
     }
 })
 
+client.on(Events.GuildMemberAdd, async member => {
 
+    clientRole = member.guild.roles.cache.get(AUTO_ROLE_ID);
+
+    if (clientRole) {
+        await member.roles.add(clientRole);
+    } else {
+        console.log("Não foi possível adicionar esse cargo automaticamente!")
+    }
+})
 
 
 client.on('messageCreate', message => {
@@ -101,6 +112,7 @@ client.on('messageCreate', message => {
 client.on(Events.VoiceStateUpdate, async (oldState, newState) => {
     const member = newState.member;
     const guild = newState.guild;
+    const memberRole = member.roles.cache.find(role => role.id === AUTO_ROLE_ID);
 
     if (!member || member.user.bot) return; 
 
@@ -128,7 +140,10 @@ if (oldState.channelId && !newState.channelId) {
                 )
                 .setFields(
                     { name: 'Id do usuário:', value: member.id, inline: false},
-                    { name: 'Nome de usuário no grupo:', value: member.displayName, inline: true}
+                    { name: 'Nome de usuário no grupo:', value: member.displayName, inline: true},
+                )
+                .setFields(
+                    { name: 'Canal de voz:', value: oldState.channel.name, inline: true}
                 )
                 .setColor("Purple")
                 .setTimestamp();
