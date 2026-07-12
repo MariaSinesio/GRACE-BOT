@@ -1,7 +1,7 @@
 const { Client, Events, GatewayIntentBits, EmbedBuilder, ActivityType, AttachmentBuilder, WelcomeChannel } = require('discord.js'); // Importa as classes necessárias
 const fs = require('node:fs');
 const path = require('node:path'); //nativo
-const { token, logChannel, welcomeChannel, ceo, botPrefix, AUTO_ROLE_ID } = require('../config.json'); 
+const { token, logChannel, welcomeChannel, ceo, botPrefix, AUTO_ROLE_ID, spamChannel} = require('../config.json'); 
 
 const client = new Client({ intents: [GatewayIntentBits.GuildVoiceStates,GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent, GatewayIntentBits.GuildMembers] }); // garante o funcionamento, ou seja,caches de guildas, canais e funções sejam preenchidos e estejam disponíveis para uso interno.
 
@@ -54,17 +54,18 @@ client.on(Events.GuildMemberAdd, async member => {
     console.log("Um novo usuário foi detectado");
 
     const channel = await member.guild.channels.cache.find(f => f.name === channelWelcome); //logchannelid
+    const nameGuild = member.guild.name.slice(0, 21);
 
     if (channel) {
     const gifThumb = new AttachmentBuilder(path.join(__dirname, 'assets', 'thumbnail.gif'), { name: 'thumbnail.gif' }) //garantir que o caminho está correto
     const memberTotal = member.guild.memberCount;
     const embed = new EmbedBuilder()
     .setImage('attachment://thumbnail.gif')
-    .setTitle('Bem vinda ao Grace-usp!❤️')
-    .setDescription(`Oi, ${member.user}! é um prazer tê-la aqui conosco. Pedimos que se apresente aos demais membros e aproveite sua jornada. Em casos de dúvida, entre em contato com algum monitor.\n
+    .setTitle(`Bem vinda a ${nameGuild} do Grace!❤️`)
+    .setDescription(`Oi, ${member.user}! é um prazer tê-la aqui conosco. Pedimos que se **apresente** aos demais membros e aproveite sua jornada. Em casos de dúvida, entre em contato com algum monitor.\n
     Respeite sempre as regras do grupo e seja educada com os outros membros.\n
-    Pedimos que olhe o canal de FAQ para tirar dúvidas ou escreva ${botPrefix}faq para acessar as perguntas mais frequentes. \n
-    Fun Fact: Sabia que você se tornou o ${memberTotal}º membro do nosso grupo? Estamos muito felizes em te ter aqui! ☆*: (≧▽≦)o :*☆
+    Pedimos que olhe o canal de **FAQ** para tirar dúvidas ou escreva ${botPrefix}**faq** para acessar as perguntas mais frequentes. \n
+    Fun Fact: Sabia que você se tornou o ${memberTotal}º membro do nosso grupo? Estamos muito felizes em te ter aqui! ☆*: (≧▽≦)o :*☆\n
     ⋅⊰⊱⋅ ──────────── ⋅⊰⊱⋅ ──────────── ⋅⊰⊱⋅ ──────────── ⋅⊰`)
     .setColor("Purple")
     .setFooter({ text: "GRACE-USP", date: Date.now()})
@@ -72,6 +73,7 @@ client.on(Events.GuildMemberAdd, async member => {
     }
 })
 
+//auto-role bem sucedido
 client.on(Events.GuildMemberAdd, async member => {
 
     clientRole = member.guild.roles.cache.get(AUTO_ROLE_ID);
@@ -83,7 +85,7 @@ client.on(Events.GuildMemberAdd, async member => {
     }
 })
 
-
+//faq perguntas frequentes
 client.on('messageCreate', message => {
     if(message.author.bot) return;
 
@@ -109,10 +111,10 @@ client.on('messageCreate', message => {
 }
 })
 
+// canal de voz contabilização
 client.on(Events.VoiceStateUpdate, async (oldState, newState) => {
     const member = newState.member;
     const guild = newState.guild;
-    const memberRole = member.roles.cache.find(role => role.id === AUTO_ROLE_ID);
 
     if (!member || member.user.bot) return; 
 
@@ -133,7 +135,7 @@ if (oldState.channelId && !newState.channelId) {
             if(channelLogs) {
                 const embed = new EmbedBuilder()
                 .setTitle('Registro do tempo no canal de voz')
-                .setDescription(`${member.user.tag} ficou ${min} minuto(s) no canal.`)
+                .setDescription(`${member.user.tag} ficou **${min} minuto(s)** no canal.`)
                 .setThumbnail(member.user.displayAvatarURL())
                 .setFields(
                     { name: 'Canal de voz:', value: oldState.channel.name, inline: true}
@@ -141,9 +143,7 @@ if (oldState.channelId && !newState.channelId) {
                 .setFields(
                     { name: 'Id do usuário:', value: member.id, inline: false},
                     { name: 'Nome de usuário no grupo:', value: member.displayName, inline: true},
-                )
-                .setFields(
-                    { name: 'Canal de voz:', value: oldState.channel.name, inline: true}
+                    { name: 'Canal de voz:', value: oldState.channel.name, inline: false}
                 )
                 .setColor("Purple")
                 .setTimestamp();
@@ -156,4 +156,23 @@ if (oldState.channelId && !newState.channelId) {
     }
 });
 
+// custom tp
+client.on('messageCreate', async message => {
+    if (message.author.bot) return;
+
+    if (message.content === `${botPrefix}customtp`) {
+        const embed = new EmbedBuilder()
+        .setTitle('NÃO MANDE MENSAGEM AQUI!')
+        .setDescription('Este canal é um chat isca afim de proteger o servidor e os usuários. Repito, NÃO mande mensagem aqui! Qualquer mensagem enviada resultará num **mute de 1 semana**.')
+        .setColor('Purple')
+        .setTimestamp();
+        message.channel.send({ embeds: [embed]});
+    }
+})
+
+
+// anti spam
+
 client.login(token);
+
+
