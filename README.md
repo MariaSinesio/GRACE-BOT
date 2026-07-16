@@ -22,8 +22,7 @@ Adicionalmente, há o recurso de ```boas-vindas``` já acolhendo e direcionando 
 └── package.json 
 
 ```
-## Lista de comandos
-
+## Comandos
 - ``!oi`` - Comando para verificar o bot
 - ``!faq`` - Oferece informações importantes sobre o projeto, cursos, monitores e outros dados pertinentes.
 
@@ -37,13 +36,16 @@ Adicionalmente, há o recurso de ```boas-vindas``` já acolhendo e direcionando 
 | Boas vindas | Mensagem de boas vindas disparada quando um membro entra na comunidade, sendo possível com ``Events.GuildMemberAdd`` e ``EmbedBuilder`` para construção da mensagem de onboarding. |
 
 
+### Melhorias futuras
+
+- [x] Criar slash commands 
+- [x] Utilizar a classe **ModalBuilder** para incluir inputs/personalizações dos usuários para informativos.
 
 ## Pré Requisitos
 
 - Node.js (*Versão 16.x ou superior*)
 - npm 
 - Conta Discord com permissões de **desenvolvedor**
-
 ## Setup 
 
 1. **Clone o repositório** 
@@ -87,6 +89,8 @@ Sendo assim, é necessário que tenha:
 
 `` Welcome `` - **Destinado à recepção de novos membros com o Embed e GIF.**
 
+``Auto-role`` - **Indica o id do cargo que deve ser atribuido a novos usuários.**
+
 ### Importante
 
 O bot precisa de permissões explícitas nele, como:
@@ -95,7 +99,7 @@ O bot precisa de permissões explícitas nele, como:
 
 - **Enviar Mensagens:** Para postar os registros.
 
-- **Anexar Arquivos:** Fundamental para o envio do thumbnail.gif de boas-vindas.
+- **Anexar Arquivos:** Fundamental para o envio do *thumbnail.gif* de boas-vindas.
 
 - **Inserir Links:** Necessário para que os EmbedBuilder apareçam com formatação.
 
