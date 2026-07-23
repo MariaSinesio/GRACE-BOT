@@ -31,7 +31,7 @@ Adicionalmente, há o recurso de ```boas-vindas``` já acolhendo e direcionando 
 | Faq | Comando que utiliza estrutura de ``EmbedBuilder`` para um corpo de texto mais rico em detalhes |
 | Contabilidade de frequência | Utilize ``Events.VoiceStateUpdate`` estabelece controle e conectividade com o bot através de estados que podem ser detectados quando um usuário entra ou sai, possibilitando o rastreio. Através de lógica, é possivel calcular o tempo de permanencia do usuário no canal de voz. Utiliza ``EmbedBuilder`` para fornecer mais detalhes no log que é disparado quando o usuário sai. |
 | Boas vindas | Mensagem de boas vindas disparada quando um membro entra na comunidade, sendo possível com ``Events.GuildMemberAdd`` e ``EmbedBuilder`` para construção da mensagem de onboarding. |
-| Auto-role | Inclui cargo automático a novos membros através da variável declarada, em casos de erro, é informado no ``log`` e não causa nenhum travamento/erro.
+| Auto-role | Inclui cargo automático a novos membros através da variável declarada, em casos de erro, é informado no ``log`` e não causa nenhum travamento.
 
 
 ### Comandos
@@ -41,7 +41,8 @@ Adicionalmente, há o recurso de ```boas-vindas``` já acolhendo e direcionando 
 ### Melhorias futuras
 
 - [x] Criar slash commands 
-- [x] Utilizar a classe **ModalBuilder** para incluir inputs/personalizações dos usuários para informativos.
+- [ ] Utilizar a classe **ModalBuilder** para incluir inputs/personalizações dos usuários para informativos.
+- [ ] Criação de sistema de ranking para centralizarr os usuários e incentivar as alunas a participarem com mais frequência nas monitorias.
 
 ## Pré Requisitos
 
