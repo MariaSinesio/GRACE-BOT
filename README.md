@@ -1,4 +1,12 @@
-## Bot de gerenciamento interno do GRACE-USP (GRACEBOT)
+<h2 align="center">Bot de gerenciamento interno do GRACE-USP (GRACEBOT)</h2>
+
+<div align="center">
+  
+[![CodeQL](https://github.com/MariaSinesio/GRACE-BOT/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/MariaSinesio/GRACE-BOT/actions/workflows/github-code-scanning/codeql)
+
+</div>
+
+</br>
 
 **GRACEBOT** é uma aplicação, bot em javascript para o Discord que visa o gerenciamento dos canais de voz para monitoria do GRACE-USP, facilitando o controle de entrada e saída e o tempo que o perfil permaneceu durante o evento, sendo um indicador crucial para presença, engajamento de alunas e mentores, assim como métricas estatísticas feitas pelo grupo interno.
 
