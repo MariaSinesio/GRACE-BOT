@@ -122,3 +122,7 @@ Atualmente utilizamos o [Discloud](https://discloud.com/) para hospedar a aplica
 
 Esse repositório utiliza uma licença MIT. 
 
+</br>
+
+<p align="center">Feito com ❤️ | Mia Sinésio </p>
+
