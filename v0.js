@@ -1,7 +1,7 @@
 const { Client, Events, GatewayIntentBits, EmbedBuilder, ActivityType, AttachmentBuilder, WelcomeChannel } = require('discord.js'); // Importa as classes necessárias
 const fs = require('node:fs');
 const path = require('node:path'); //nativo
-const { token, logChannel, welcomeChannel, ceo, botPrefix, AUTO_ROLE_ID, spamChannel} = require('../config.json');
+const { token, logChannel, welcomeChannel, ceo, botPrefix, AUTO_ROLE_ID, spamChannel} = require('./config.json');
 
 const client = new Client({ intents: [GatewayIntentBits.GuildVoiceStates,GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent, GatewayIntentBits.GuildMembers] }); // garante o funcionamento, ou seja,caches de guildas, canais e funções sejam preenchidos e estejam disponíveis para uso interno.
 

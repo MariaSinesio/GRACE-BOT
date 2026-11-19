@@ -1,16 +1,8 @@
 <h2 align="center">Bot de gerenciamento interno do GRACE-USP (GRACEBOT)</h2>
 
-<div align="center">
-  
-[![CodeQL](https://github.com/MariaSinesio/GRACE-BOT/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/MariaSinesio/GRACE-BOT/actions/workflows/github-code-scanning/codeql)
+**GRACE** é uma aplicação, bot em javascript para o Discord que visa o gerenciamento dos canais de voz para monitoria do GRACE-ICMC-USP, facilitando o controle de entrada e saída e o tempo que o perfil permaneceu durante o evento, sendo um indicador crucial para presença, engajamento de alunas e mentores, assim como métricas estatísticas feitas pelo grupo interno.
 
-</div>
-
-</br>
-
-**GRACEBOT** é uma aplicação, bot em javascript para o Discord que visa o gerenciamento dos canais de voz para monitoria do GRACE-USP, facilitando o controle de entrada e saída e o tempo que o perfil permaneceu durante o evento, sendo um indicador crucial para presença, engajamento de alunas e mentores, assim como métricas estatísticas feitas pelo grupo interno.
-
-Adicionalmente, há o recurso de ```boas-vindas``` já acolhendo e direcionando as alunas do que diz respeito a regras, curiosidades, perguntas-respostas do FAQ e ```auto-role``` para que as alunas sejam organizadas em seus devidos cargos e com o acesso a informações rapidamente.
+Adicionalmente, há o recurso de ```boas-vindas``` já acolhendo e direcionando as alunas do que diz respeito a regras, curiosidades, perguntas-respostas do FAQ. 
 
 ## Estrutura de pastas
 
@@ -18,9 +10,23 @@ Adicionalmente, há o recurso de ```boas-vindas``` já acolhendo e direcionando 
 ├── grace-bot/
 │   ├── node_modules/
 │   ├── src/
+|   |   ├── fonts/
+|   |      └── LeagleSpartan.ttf
 │   │   ├── assets/
-|   |      └── thumbnail.png
-|   | └── index.js
+|   |      └── thumbnail.gif
+|   |      └── background.png
+|   |   ├── events/
+|   |      └── userRole.js
+|   |      └── channelVoiceCount.js
+|   |      └── faq.js
+|   |      └── hello.js
+|   |      └── ready.js
+|   |      └── welcome.js
+|   |   ├── utilities/
+|   |      └── canvas.js
+|   |      └── channel.js
+|   | └── v0.js
+|   | └── user.js
 |   | └── commands.js
 ├── README.md
 └── .gitignore
@@ -30,8 +36,13 @@ Adicionalmente, há o recurso de ```boas-vindas``` já acolhendo e direcionando 
 └── package.json 
 
 ```
+## Lista de comandos
 
-## Funcionalidades
+- ``!oi`` - Comando para verificar o bot
+- ``!faq`` - Oferece informações importantes sobre o projeto, cursos, monitores e outros dados pertinentes.
+
+
+### Funcionalidades
 
 | Funcionalidades | Detalhes/Classes |
 | :--- | :--- |
@@ -39,18 +50,9 @@ Adicionalmente, há o recurso de ```boas-vindas``` já acolhendo e direcionando 
 | Faq | Comando que utiliza estrutura de ``EmbedBuilder`` para um corpo de texto mais rico em detalhes |
 | Contabilidade de frequência | Utilize ``Events.VoiceStateUpdate`` estabelece controle e conectividade com o bot através de estados que podem ser detectados quando um usuário entra ou sai, possibilitando o rastreio. Através de lógica, é possivel calcular o tempo de permanencia do usuário no canal de voz. Utiliza ``EmbedBuilder`` para fornecer mais detalhes no log que é disparado quando o usuário sai. |
 | Boas vindas | Mensagem de boas vindas disparada quando um membro entra na comunidade, sendo possível com ``Events.GuildMemberAdd`` e ``EmbedBuilder`` para construção da mensagem de onboarding. |
-| Auto-role | Inclui cargo automático a novos membros através da variável declarada, em casos de erro, é informado no ``log`` e não causa nenhum travamento.
+| Cargo Automático | Funcionalidade que automaticamente, na entrada de um novo usuário, atribui o cargo dito. |
 
 
-### Comandos
-- ``!oi`` - Comando para verificar o bot
-- ``!faq`` - Oferece informações importantes sobre o projeto, cursos, monitores e outros dados pertinentes.
-
-### Melhorias futuras
-
-- [x] Criar slash commands 
-- [ ] Utilizar a classe **ModalBuilder** para incluir inputs/personalizações dos usuários para informativos.
-- [ ] Criação de sistema de ranking semanal para centralizar os usuários e incentivar as alunas a participarem com mais frequência nas monitorias.
 
 ## Pré Requisitos
 
@@ -100,8 +102,6 @@ Sendo assim, é necessário que tenha:
 
 `` Welcome `` - **Destinado à recepção de novos membros com o Embed e GIF.**
 
-``Auto-role`` - **Indica o id do cargo que deve ser atribuido a novos usuários.**
-
 ### Importante
 
 O bot precisa de permissões explícitas nele, como:
@@ -110,7 +110,7 @@ O bot precisa de permissões explícitas nele, como:
 
 - **Enviar Mensagens:** Para postar os registros.
 
-- **Anexar Arquivos:** Fundamental para o envio do *thumbnail.gif* de boas-vindas.
+- **Anexar Arquivos:** Fundamental para o envio do thumbnail.gif de boas-vindas.
 
 - **Inserir Links:** Necessário para que os EmbedBuilder apareçam com formatação.
 
@@ -121,8 +121,3 @@ Atualmente utilizamos o [Discloud](https://discloud.com/) para hospedar a aplica
 ## Licença 
 
 Esse repositório utiliza uma licença MIT. 
-
-</br>
-
-<p align="center">Feito com ❤️ | Mia Sinésio </p>
-
