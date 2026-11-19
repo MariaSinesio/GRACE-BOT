@@ -11,6 +11,14 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+<<<<<<< HEAD
     "discord.js": "^14.26.2"
+=======
+    "@napi-rs/canvas": "^1.0.7",
+    "canvas": "^3.2.3",
+    "discord.js": "^14.27.0",
+    "node-gyp": "^13.0.1",
+    "rebuild": "^0.1.2"
+>>>>>>> e74289e (Refactor: Refazendo o template de boas vindas com imagem personalizada)
   }
 }
