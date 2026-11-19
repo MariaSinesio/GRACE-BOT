@@ -17,7 +17,7 @@ for (const file of endFiles) {
     const files = path.join(pathEvent, file);
     const event = require(files);
     if (event.once) {
-        client.once(event.name, (...args) => event.execute(...args));
+        client.once(event.name, (...args) => event.execute(...args)); // esse ... é operador rest que permite que a função aceite infinitos argumentos
     } else {
         client.on(event.name, (...args) => event.execute(...args));
     }
