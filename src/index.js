@@ -2,6 +2,8 @@ const { Client, GatewayIntentBits} = require('discord.js'); // Importa as classe
 const fs = require('node:fs');
 const path = require('node:path');
 const {token} = require('../config.json');
+const { connectToMongoDB } = require('../mongose.js');
+
 
 const client = new Client({ 
     intents: [GatewayIntentBits.GuildVoiceStates,
@@ -10,19 +12,33 @@ const client = new Client({
         GatewayIntentBits.MessageContent, 
         GatewayIntentBits.GuildMembers] }); // garante o funcionamento, ou seja,caches de guildas, canais e funções sejam preenchidos e estejam disponíveis para uso interno.
 
-const pathEvent = path.join(__dirname, 'events');
-const endFiles = fs.readdirSync(pathEvent).filter(file => file.endsWith('.js'));
 
-for (const file of endFiles) {
-    const files = path.join(pathEvent, file);
-    const event = require(files);
-    if (event.once) {
+        
+const pathEvent = [ // solução para ler mais pastas
+    path.join(__dirname, 'events'),
+    path.join(__dirname, 'utilities'),
+    __dirname
+]
+for (const pathAc of pathEvent) {
+    const endFiles = fs.readdirSync(pathAc).filter(file => file.endsWith('.js'));
+ for (const file of endFiles) {
+    const files = path.join(pathAc, file);
+     const event = require(files);
+     if(file === 'index.js') continue;
+     if (event.once) {
         client.once(event.name, (...args) => event.execute(...args)); // esse ... é operador rest que permite que a função aceite infinitos argumentos
     } else {
-        client.on(event.name, (...args) => event.execute(...args));
+         client.on(event.name, (...args) => event.execute(...args));
     }
+ }
 }
 
+
+async function start(){
+    await connectToMongoDB();
+}
+
+start();
 client.login(token);
 
 // feito com auxilio de ia

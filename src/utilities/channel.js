@@ -1,6 +1,6 @@
 // definição dos canais de logs
-const { botPrefix} = require('../config.json');
-const { channelLogs} = require('./user.js'); // importamos, trazemos para dentro
+const { botPrefix} = require('../../config.json');
+const { channelLogs} = require('../user.js'); // importamos, trazemos para dentro
 
 module.exports = {
     name: 'messageCreate', // nome do evento 
