@@ -6,7 +6,8 @@ module.exports = {
     async execute(message) {
     if (message.content.toLowerCase() === `${botPrefix}oi`) {
         if (message.author.bot) return;
-        message.channel.send(`Olá, ${message.author}! Sou o bot de gerenciamento do GRACE-USP :). Minha criadora é a <@${ceo}>, em caso de dúvidas ou feedback, pode entrar em contato com ela!`)
+        message.channel.send(`Olá, ${message.author}!Sou o bot de gerenciamento interno do GRACE-USP e estou pronto para te ajudar :). Minha criadora é a <@${ceo}>, em caso de dúvidas ou feedback, pode entrar em contato com ela!
+         Digite ${botPrefix}help para visualizar meus comandos!`);
     } 
  }
 }
