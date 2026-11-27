@@ -4,7 +4,7 @@ O **GRACE** foi criado originalmente para atender às necessidades do GRACE-ICMC
 
 ## Código de conduta
 
-Mantenha um ambiente respeitoso e colaborativo. Críticas devem ser sempre construtivas e focadas no código ou nas ideias. Comportamentos ofensivos, spam ou desrespeito não serão tolerados. Qualquer problema pode ser reportado diretamente a mim em `[miasinesio@gmail.com]`.
+Mantenha um ambiente respeitoso e colaborativo. Críticas devem ser sempre construtivas e focadas no código ou nas ideias. Comportamentos ofensivos, spam ou desrespeito não serão tolerados. Qualquer problema pode ser reportado diretamente a mim em `miasinesio@gmail.com`.
 
 ## Rodando o projeto localmente
 
@@ -43,5 +43,5 @@ Você vai precisar de **Node.js v20+**, **Git** e um bot de testes criado no [Di
 
 ## Licença
 
-Este projeto é distribuído sob a licença **[MIT]** — fique à vontade para estudar, adaptar para o seu próprio grupo ou contribuir de volta com melhorias.
+Este projeto é distribuído sob a licença **MIT** — fique à vontade para estudar, adaptar para o seu próprio grupo ou contribuir de volta com melhorias.
 
